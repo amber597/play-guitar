@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import detectNote from "../utils/detectNote";
+
+type Props = {
+    setNote: (note: string) => void;
+}
 
 
-export default function NoteListener() {
+export default function NoteListener({setNote}: Props) {
 
     const [isMicOn, setIsMicOn] = useState<boolean>(false); // to toggle mic
     const audioStreamRef = useRef<MediaStream | null>(null); // to store Audio stream
@@ -60,12 +65,17 @@ export default function NoteListener() {
 
         source.connect(analyzer);
         // const buffer = new Float32Array(); // this creates a buffer of size 0
-        analyzer.fftSize = 2048
-        const buffer = new Float32Array(analyzer.fftSize)
+        analyzer.fftSize = 2048;
+        const buffer = new Float32Array(analyzer.fftSize);
+
+        console.log(audioContext.sampleRate);
         
         const readAudio = () => {
             analyzer.getFloatTimeDomainData(buffer);
-            console.log("first 5 values from buffer ", buffer.slice(0, 5));
+            const note = detectNote(buffer, audioContext.sampleRate);
+
+            if(note) setNote(note);
+            // console.log("first 5 values from buffer ", buffer.slice(0, 5));
             animationFrameRef.current = requestAnimationFrame(readAudio); // this makes it run forever unless cancel it
             // requestAnimationFrame(readAudio); // This will continue forever even when Mic is off
         }    
