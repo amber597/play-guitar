@@ -10,4 +10,7 @@ export default defineConfig({
       },
     }),
   ],
+  optimizeDeps: {
+    exclude: ['@coderline/alphatab']  // ← fixes the worker error
+  }
 })

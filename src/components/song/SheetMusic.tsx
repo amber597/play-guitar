@@ -9,6 +9,8 @@ type Props = {
 export default function SheetMusic({notes, currentIndex}: Props) {
 
     return <>
+    {
+        notes && 
     <div className="note-row">
         {notes.map((note, index) => (
             <div key={index} className={currentIndex === index ? "note active": "note"}>
@@ -17,5 +19,6 @@ export default function SheetMusic({notes, currentIndex}: Props) {
         ))}
 
     </div>
+    }
     </>
 }
