@@ -1,0 +1,15 @@
+.note-row {
+  display: flex;
+  gap: 12px;
+}
+
+.note {
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 6px;
+}
+
+.note.active {
+  background: orange;
+  transform: scale(1.2);
+}
